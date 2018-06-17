@@ -7,7 +7,7 @@ __pycache__/
 avatars
 # C extensions
 *.so
-avatar.sqlite
+avatar.sqlite*
 # Distribution / packaging
 .Python
 build/
