@@ -7,9 +7,9 @@ from functools import partial
 from sql import Avatar, Game, DBSession
 from asyncio import get_event_loop,wait,sleep
 import datetime
+from proxy import my_proxies
 
 session = DBSession()
-my_proxies = {"http": "socks5://127.0.0.1:1086", "https": "socks5://127.0.0.1:1086"}
 
 url = "https://steamcommunity.com/actions/GameAvatars/"
 headers = {
