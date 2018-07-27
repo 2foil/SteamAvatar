@@ -4,9 +4,7 @@ from sql import DBSession, Avatar
 import os
 from functools import partial
 from asyncio import get_event_loop, wait, sleep
-
-my_proxies = {"http": "socks5://127.0.0.1:1086", "https": "socks5://127.0.0.1:1086"}
-
+from proxy import my_proxies
 
 headers = {
 
