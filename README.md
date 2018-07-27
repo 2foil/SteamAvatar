@@ -1,6 +1,10 @@
-# SteamAvatar
-a crawler that scrap the Steam avatars.
 
+
+# SteamAvatar
+![](https://img.shields.io/badge/python-3.5%2C%203.6%2C%203%2C7-blue.svg)
+![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)
+
+A crawler that scrap the Steam avatars.
 # Usage
 - Update urls and download.
 
