@@ -5,7 +5,7 @@ a crawler that scrap the Steam avatars.
 - Update urls and download.
 
 ```bash
-$ git clone git@github.com:2foil/SteamAvatar.git
+$ git clone -b dev git@github.com:2foil/SteamAvatar.git
 $ cd SteamAvatar
 $ pip3 install -r requirements.txt 
 $ python scrap.py
