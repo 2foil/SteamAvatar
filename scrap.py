@@ -4,7 +4,7 @@ import execjs
 import time
 from functools import partial
 from sql import Avatar, Game, DBSession
-from asyncio import get_event_loop,wait
+from asyncio import get_event_loop,wait,sleep
 import datetime
 
 session = DBSession()
@@ -66,6 +66,7 @@ async def parse(response):
     print("\t Parsing: get_jsObj ...")
     jsObj, mainBody = await get_jsObj(response)
 
+
     for k,v in jsObj.items():
         ddd = mainBody.find('div', id="image_group_scroll_"+k)
         game = ddd.next_sibling.next_sibling.next_sibling.text
@@ -79,7 +80,7 @@ async def parse(response):
 if __name__ == '__main__':
     old_num = session.query(Avatar).count()
     loop = get_event_loop()
-    tasks = [scrap() for i in range(50)]
+    tasks = [scrap() for i in range(100)]
     loop.run_until_complete(wait(tasks))
     loop.close()
     new_num = session.query(Avatar).count()

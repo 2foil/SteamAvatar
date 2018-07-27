@@ -85,6 +85,8 @@ def reset():
 
 if __name__ == '__main__':
     # reset()
+    if not os.path.exists('./avatars'):
+    	os.mkdir('./avatars')
 
     old_remain = session.query(Avatar).filter_by(scraped=False).count()
     all = session.query(Avatar).count()
