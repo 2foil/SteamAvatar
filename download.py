@@ -39,18 +39,27 @@ async def update_db(url):
     session.merge(url)
     session.commit()
 
+async def delete_db(url):
+    session.delete(url)
+    session.commit()
+
 async def down(urlObj):
     url = urlObj.url
     fname = "avatars" + "/" + urlObj.game_id + "_" + url[url.rfind('/')+1:]
 
     if os.path.exists(fname):
-        print('file exist.')
+#        print('file exist.')
         urlObj.scraped = True
         await update_db(urlObj)
         return
 
     print("Scrping\t{}...".format(urlObj.id))
     html = await get_html(url, headers, my_proxies, 10)
+
+    if (html.status_code == 404):
+        print("404 Not found... ")
+        await delete_db(urlObj)
+        return
 
     if len(html.content) and len(html.text)  == 0:
         print("Failed {}".format(urlObj.url))
