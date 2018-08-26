@@ -12,9 +12,6 @@ headers = {
     "Accept-Encoding": "gzip, deflate, br",
     "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
     "Cache-Control": "max-age=0",
-    # "Host": "steamcdn-a.akamaihd.net",
-    # "If-Modified-Since": "Tue, 09 Feb 2016 01:08:05 GMT",
-    # "If-None-Match": "56b93c11-ec2",
     "Upgrade-Insecure-Requests": "1",
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.62 Safari/537.36"
 }
@@ -23,13 +20,15 @@ headers = {
 # 56b93c07-1b48
 
 async def get_html(url, headers, proxies, timeout):
+
     loop = get_event_loop()
     html = await loop.run_in_executor(None, partial(requests.get, url=url, headers=headers, proxies=proxies, timeout=timeout))
     return html
 
-async def save_file(fname, html):
+def save_file(fname, html):
     with open(fname, 'wb+') as f:
         f.write(html.content)
+
 
 session = DBSession()
 
@@ -71,7 +70,9 @@ async def down(urlObj):
             return
 
     print("Save\t{}".format(urlObj.id))
-    await save_file(fname, html)
+    save_file(fname, html)
+    # loop = get_event_loop()
+    # await loop.run_in_executor(None, save_file, fname, html)
 
     urlObj.scraped = True
     await update_db(urlObj)
@@ -85,13 +86,15 @@ def reset():
 if __name__ == '__main__':
     # reset()
     if not os.path.exists('./avatars'):
-    	os.mkdir('./avatars')
+        os.mkdir('./avatars')
 
     old_remain = session.query(Avatar).filter_by(scraped=False).count()
     all = session.query(Avatar).count()
 
     tasks = []
     urlObjs =  session.query(Avatar).filter_by(scraped=False).all()
+    # urlObjs =  session.query(Avatar).all()
+
     tasks.extend([down(urlObj) for urlObj in urlObjs])
     print("Loop begin...")
     loop = get_event_loop()
